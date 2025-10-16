@@ -9,13 +9,14 @@ const Radar = ({
   localTeam,
   averageLatency,
   bombData,
-  settings
+  settings,
+  isMobile = false
 }) => {
   const radarImageRef = useRef();
 
   return (
-    <div id="radar" className={`relative overflow-hidden origin-center`}>
-      <img ref={radarImageRef} className={`w-full h-auto`} src={radarImage} />
+    <div id="radar" className={`relative overflow-hidden origin-center ${isMobile ? 'max-w-sm max-h-sm' : ''}`}>
+      <img ref={radarImageRef} className={`w-full h-auto ${isMobile ? 'max-w-full max-h-full object-contain' : ''}`} src={radarImage} />
 
       {playerArray.map((player) => (
         <Player

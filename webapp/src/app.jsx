@@ -163,14 +163,15 @@ const App = () => {
           </div>
         )}
 
-        <div className={`flex items-center justify-evenly`}>
+        {/* Desktop Layout */}
+        <div className={`hidden lg:flex items-center justify-evenly`}>
           <Latency
             value={averageLatency}
             settings={settings}
             setSettings={setSettings}
           />
 
-          <ul id="terrorist" className="lg:flex hidden flex-col gap-7 m-0 p-0">
+          <ul id="terrorist" className="flex flex-col gap-7 m-0 p-0">
             {playerArray
               .filter((player) => player.m_team == 2)
               .map((player) => (
@@ -202,7 +203,7 @@ const App = () => {
 
           <ul
             id="counterTerrorist"
-            className="lg:flex hidden flex-col gap-7 m-0 p-0"
+            className="flex flex-col gap-7 m-0 p-0"
           >
             {playerArray
               .filter((player) => player.m_team == 3)
@@ -215,6 +216,131 @@ const App = () => {
                 />
               ))}
           </ul>
+        </div>
+
+        {/* Mobile Portrait Layout */}
+        <div className={`flex lg:hidden flex-col h-full`}>
+          <Latency
+            value={averageLatency}
+            settings={settings}
+            setSettings={setSettings}
+          />
+          
+          {/* Radar oben */}
+          <div className={`flex-1 flex items-center justify-center p-4`}>
+            {(playerArray.length > 0 && mapData && (
+              <Radar
+                playerArray={playerArray}
+                radarImage={`./data/${mapData.name}/radar.png`}
+                mapData={mapData}
+                localTeam={localTeam}
+                averageLatency={averageLatency}
+                bombData={bombData}
+                settings={settings}
+              />
+            )) || (
+                <div id="radar" className={`relative overflow-hidden origin-center`}>
+                  <h1 className="radar_message">
+                    Connected! Waiting for data from usermode
+                  </h1>
+                </div>
+              )}
+          </div>
+
+          {/* Player Daten unten */}
+          <div className={`flex gap-4 p-4 max-h-1/2 overflow-y-auto`}>
+            <ul id="terrorist" className="flex flex-col gap-3 m-0 p-0 flex-1">
+              {playerArray
+                .filter((player) => player.m_team == 2)
+                .map((player) => (
+                  <PlayerCard
+                    right={false}
+                    key={player.m_idx}
+                    playerData={player}
+                    isMobile={true}
+                  />
+                ))}
+            </ul>
+
+            <ul
+              id="counterTerrorist"
+              className="flex flex-col gap-3 m-0 p-0 flex-1"
+            >
+              {playerArray
+                .filter((player) => player.m_team == 3)
+                .map((player) => (
+                  <PlayerCard
+                    right={true}
+                    key={player.m_idx}
+                    playerData={player}
+                    settings={settings}
+                    isMobile={true}
+                  />
+                ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Mobile Landscape Layout */}
+        <div className={`hidden md:flex lg:hidden flex-col h-full`}>
+          <Latency
+            value={averageLatency}
+            settings={settings}
+            setSettings={setSettings}
+          />
+          
+          <div className={`flex-1 flex items-center justify-center gap-4 p-4`}>
+            <ul id="terrorist" className="flex flex-col gap-4 m-0 p-0">
+              {playerArray
+                .filter((player) => player.m_team == 2)
+                .map((player) => (
+                  <PlayerCard
+                    right={false}
+                    key={player.m_idx}
+                    playerData={player}
+                    isMobile={true}
+                  />
+                ))}
+            </ul>
+
+            <div className={`flex-1 flex items-center justify-center`}>
+              {(playerArray.length > 0 && mapData && (
+                <Radar
+                  playerArray={playerArray}
+                  radarImage={`./data/${mapData.name}/radar.png`}
+                  mapData={mapData}
+                  localTeam={localTeam}
+                  averageLatency={averageLatency}
+                  bombData={bombData}
+                  settings={settings}
+                  isMobile={true}
+                />
+              )) || (
+                  <div id="radar" className={`relative overflow-hidden origin-center`}>
+                    <h1 className="radar_message">
+                      Connected! Waiting for data from usermode
+                    </h1>
+                  </div>
+                )}
+            </div>
+
+            <ul
+              id="counterTerrorist"
+              className="flex flex-col gap-4 m-0 p-0"
+            >
+              {playerArray
+                .filter((player) => player.m_team == 3)
+                .map((player) => (
+                  <PlayerCard
+                    right={true}
+                    key={player.m_idx}
+                    playerData={player}
+                    settings={settings}
+                    isMobile={true}
+                  />
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
